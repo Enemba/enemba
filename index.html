@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENEMBA - Soluções Inteligentes para Cada Necessidade</title>
+    <!-- Tailwind CSS para Estilização de Alto Nível -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 relative">
+
+    <!-- Container de Notificações Toast Personalizado -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full px-4"></div>
+
+    <!-- Botão de Carrinho Flutuante (Aparece quando há itens no carrinho) -->
+    <button id="floating-cart" onclick="openCart()" class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center gap-3 transition-all transform translate-y-24 opacity-0 pointer-events-none">
+        <div class="relative">
+            <i class="fa-solid fa-cart-shopping text-xl"></i>
+            <span id="cart-badge-float" class="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">0</span>
+        </div>
+        <span id="cart-total-float" class="font-bold text-sm hidden sm:inline">0 Kz</span>
+    </button>
+
+    <!-- HEADER / NAVEGAÇÃO -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo com Slogan Debaixo -->
+                <div class="flex-shrink-0 flex flex-col justify-center">
+                    <span class="text-2xl font-extrabold text-blue-600 tracking-wider leading-none">ENE<span class="text-emerald-500">MBA</span></span>
+                    <span class="text-[8px] sm:text-[9px] text-gray-500 font-semibold tracking-wide mt-1 leading-none uppercase">Soluções inteligentes para cada necessidade</span>
+                </div>
+                
+                <!-- Links Desktop -->
+                <nav class="hidden md:flex space-x-6 lg:space-x-8 text-sm font-medium items-center">
+                    <a href="#inicio" class="text-gray-950 hover:text-blue-600 transition-colors">Início</a>
+                    <a href="#produtos" class="text-gray-500 hover:text-blue-600 transition-colors">Produtos</a>
+                    <a href="#categorias" class="text-gray-500 hover:text-blue-600 transition-colors">Categorias</a>
+                    <a href="#servicos" class="text-gray-500 hover:text-blue-600 transition-colors">Serviços</a>
+                    <a href="#contacto" class="text-gray-500 hover:text-blue-600 transition-colors">Contacto</a>
+                </nav>
+
+                <!-- Botões de Ação Rápida (Carrinho e WhatsApp) -->
+                <div class="hidden md:flex items-center gap-4">
+                    <!-- Botão do Carrinho no Header -->
+                    <button onclick="openCart()" class="relative p-2.5 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-badge-header" class="absolute top-0 right-0 bg-red-500 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+
+                    <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre os vossos serviços e produtos na ENEMBA." 
+                       target="_blank" 
+                       class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-full text-white bg-emerald-600 hover:bg-emerald-700 transition-all shadow-md">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i> Falar Connosco
+                    </a>
+                </div>
+
+                <!-- Botão Menu Mobile com indicador do carrinho -->
+                <div class="flex items-center gap-3 md:hidden">
+                    <button onclick="openCart()" class="relative p-2 text-gray-600">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cart-badge-mobile-btn" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-extrabold px-1 py-0.2 rounded-full">0</span>
+                    </button>
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 pt-2 pb-4 space-y-1">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Início</a>
+            <a href="#produtos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Produtos</a>
+            <a href="#categorias" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Categorias</a>
+            <a href="#servicos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Serviços</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Contacto</a>
+            <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre a ENEMBA." 
+               target="_blank" 
+               class="block text-center w-full px-4 py-3 bg-emerald-600 text-white font-semibold rounded-md shadow hover:bg-emerald-700 mt-4">
+                <i class="fab fa-whatsapp mr-2"></i> Enviar WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (BANNER PRINCIPAL) -->
+    <section id="inicio" class="relative bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white py-24 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&q=80&w=1920')] bg-cover bg-center mix-blend-overlay opacity-30"></div>
+        <div class="relative max-w-7xl mx-auto text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div class="lg:w-1/2 space-y-6">
+                <span class="inline-block bg-blue-500/20 text-blue-300 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-blue-500/30">
+                    ENEMBA - Novidades & Serviços em Angola
+                </span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                    Soluções inteligentes para cada necessidade
+                </h1>
+                <p class="text-lg text-gray-300 max-w-xl">
+                    Explore os melhores produtos importados e aproveite os nossos serviços especializados de lavagem de estofados e formação de importação de alta qualidade com a confiança da ENEMBA.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#produtos" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all text-center">
+                        Ver Produtos
+                    </a>
+                    <a href="#servicos" class="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-lg transition-all text-center">
+                        Nossos Serviços
+                    </a>
+                </div>
+            </div>
+            <div class="lg:w-1/2 flex justify-center">
+                <div class="relative p-2 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm max-w-md">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="[Negócio de Importação e Serviços]" class="rounded-xl shadow-2xl">
+                    <div class="absolute -bottom-6 -left-6 bg-emerald-600 text-white p-4 rounded-xl shadow-lg hidden sm:flex items-center space-x-3">
+                        <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                        <div>
+                            <p class="text-xs text-emerald-200">Aprenda a Importar</p>
+                            <p class="font-bold">Formação Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU DE CATEGORIAS -->
+    <section id="categorias" class="py-12 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span> Categorias de Produtos
+                    </h2>
+                    
+                    <!-- Botões de Categoria -->
+                    <div class="flex flex-wrap gap-3" id="filter-buttons">
+                        <button onclick="filterCategory('todos')" class="category-btn active px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-blue-600 text-white" id="btn-todos">
+                            Todos os Produtos
+                        </button>
+                        <button onclick="filterCategory('eletronicos')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200" id="btn-eletronicos">
+                            <i class="fa-solid fa-laptop mr-2"></i> Eletrónicos
+                        </button>
+                        <button onclick="filterCategory('moda')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200" id="btn-moda">
+                            <i class="fa-solid fa-shirt mr-2"></i> Moda & Acessórios
+                        </button>
+                        <button onclick="filterCategory('casa')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200" id="btn-casa">
+                            <i class="fa-solid fa-couch mr-2"></i> Casa & Decoração
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Barra de Pesquisa de Produtos -->
+                <div class="w-full lg:max-w-md">
+                    <label for="product-search" class="sr-only">Pesquisar produtos</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                        </div>
+                        <input type="text" id="product-search" oninput="handleSearch(this.value)" placeholder="O que procura hoje? Ex: Smartphone..." class="block w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all">
+                        <button id="clear-search" onclick="clearSearch()" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LISTAGEM DE PRODUTOS -->
+    <section id="produtos" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Catálogo de Produtos</h2>
+                <p class="mt-4 text-lg text-gray-500">Veja as nossas novidades. Escolha a quantidade, adicione ao seu carrinho e envie-nos todo o seu pedido unificado pelo WhatsApp.</p>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="products-grid">
+                <!-- Os produtos serão injetados dinamicamente via JS -->
+            </div>
+
+            <!-- Mensagem Amigável de Sem Resultados -->
+            <div id="no-results" class="hidden text-center py-16">
+                <div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-box-open text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900">Nenhum produto encontrado</h3>
+                <p class="text-gray-500 mt-1 max-w-md mx-auto">Não encontramos produtos correspondentes aos termos pesquisados ou nesta categoria.</p>
+                <button onclick="clearAllFilters()" class="mt-5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm shadow transition-all">
+                    Mostrar Todos os Produtos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU DE SERVIÇOS PRESTADOS -->
+    <section id="servicos" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold tracking-widest text-blue-600 uppercase">Nossos Serviços</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mt-2">Soluções Especializadas para Você</h2>
+                <p class="mt-4 text-lg text-gray-500">Desenvolvemos soluções inteligentes para atender de forma personalizada cada uma das suas necessidades.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Serviço 1: Lavagem de Estofado -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-soap text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Lavagem Profissional de Estofados</h3>
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            Elimine sujidade, ácaros, bactérias e maus odores do seu sofá, cadeiras, colchões ou estofos de viaturas. Utilizamos equipamentos de alta pressão e produtos biodegradáveis de qualidade internacional. 
+                        </p>
+                        <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Sofás, Colchões e Carpetes</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Remoção de Manchas e Odores</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Secagem rápida e higienização profunda</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/244928190474?text=Olá! Gostaria de agendar ou obter um orçamento para Lavagem de Estofados com a ENEMBA." 
+                       target="_blank" 
+                       class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors inline-block">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i> Agendar Lavagem
+                    </a>
+                </div>
+
+                <!-- Serviço 2: Formação Online de Importação -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-earth-americas text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Formação de Importação Online</h3>
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            Aprenda a importar produtos da China, EUA e Turquia com o menor custo e revenda em Angola com alta margem de lucro. Curso passo a passo do absoluto zero, ensinando fornecedores e envio seguro.
+                        </p>
+                        <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Fornecedores confiáveis testados</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Métodos de envio para Angola sem complicação</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Acesso vitalício a videoaulas e suporte</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/244928190474?text=Olá! Quero me inscrever e saber mais sobre a Formação Online de Importação com a ENEMBA." 
+                       target="_blank" 
+                       class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors inline-block">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i> Iniciar Formação
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE DETALHES DO PRODUTO (Dinamizado por Javascript) -->
+    <div id="product-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            
+            <!-- Fechar Modal -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="p-6 sm:p-8 md:p-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Galeria de Imagens do Modal -->
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 rounded-2xl overflow-hidden aspect-square flex items-center justify-center border border-gray-100">
+                            <img id="modal-main-img" src="" alt="[Imagem Principal do Produto]" class="w-full h-full object-cover">
+                        </div>
+                        <!-- Miniaturas de Fotos Adicionais -->
+                        <div class="grid grid-cols-4 gap-2" id="modal-thumbnails">
+                            <!-- Injetado dinamicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Detalhes do Produto -->
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <span id="modal-tag" class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold uppercase px-2.5 py-1 rounded-md mb-4">Categoria</span>
+                            <h3 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-gray-900">Nome do Produto</h3>
+                            
+                            <!-- Indicadores de Stock e Compras no Modal -->
+                            <div class="flex flex-wrap gap-2 my-3">
+                                <span id="modal-stock-badge" class="text-xs font-medium px-2.5 py-1 rounded-full"></span>
+                                <span id="modal-sold-badge" class="text-xs font-medium px-2.5 py-1 rounded-full"></span>
+                            </div>
+
+                            <p id="modal-price" class="text-3xl font-black text-blue-600">Kz 0,00</p>
+                            
+                            <hr class="my-6 border-gray-200">
+
+                            <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Descrição detalhada</h4>
+                            <p id="modal-desc" class="text-gray-600 mt-2 text-sm sm:text-base leading-relaxed">
+                                Descrição completa do produto virá aqui.
+                            </p>
+
+                            <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wide mt-6">Especificações</h4>
+                            <ul id="modal-specs" class="mt-2 text-sm text-gray-600 space-y-1">
+                                <!-- Especificações injetadas -->
+                            </ul>
+
+                            <!-- Seletor de Quantidade do Modal -->
+                            <div class="mt-6 border-t border-gray-100 pt-6">
+                                <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Selecione a quantidade</label>
+                                <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-2 max-w-[180px]">
+                                    <button onclick="decrementModalQty()" class="w-10 h-10 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-100 text-gray-700 transition-colors font-bold text-lg">-</button>
+                                    <span id="modal-qty-display" class="font-extrabold text-gray-950 text-xl">0</span>
+                                    <button onclick="incrementModalQty()" class="w-10 h-10 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-100 text-gray-700 transition-colors font-bold text-lg">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botão Comprar do Modal -->
+                        <div class="mt-8">
+                            <button onclick="addProductToCartFromModal()" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl text-center">
+                                <i class="fa-solid fa-cart-plus mr-3 text-xl"></i> Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL DO CARRINHO DE COMPRAS -->
+    <div id="cart-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-end hidden">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between relative transform transition-transform duration-300">
+            <!-- Cabeçalho do Carrinho -->
+            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-cart-shopping text-blue-600 text-xl"></i>
+                    <h3 class="text-xl font-bold text-gray-900">Seu Pedido</h3>
+                </div>
+                <button onclick="closeCart()" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Lista de Itens do Carrinho -->
+            <div id="cart-items-container" class="p-6 flex-1 overflow-y-auto space-y-4">
+                <!-- Injetado dinamicamente via JS -->
+            </div>
+
+            <!-- Resumo e Ação do Carrinho -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50 space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-500 font-medium">Subtotal Geral:</span>
+                    <span id="cart-total-display" class="text-2xl font-black text-blue-600">0 Kz</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="closeCart()" class="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3.5 rounded-xl transition-all text-sm">
+                        Continuar Loja
+                    </button>
+                    <button onclick="proceedToCheckout()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition-all text-sm shadow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-truck"></i> Encomendar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT / DADOS DE ENTREGA -->
+    <div id="checkout-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl relative p-6 sm:p-8">
+            
+            <!-- Fechar Modal -->
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-truck text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Dados de Entrega</h3>
+                <p class="text-gray-500 text-sm mt-1">Insira as informações de envio abaixo para que possamos processar a sua entrega com precisão.</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); confirmCheckout();" class="space-y-4">
+                <div>
+                    <label for="client-name" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Seu Nome Completo</label>
+                    <input type="text" id="client-name" required placeholder="Ex: João Manuel" class="block w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all">
+                </div>
+                <div>
+                    <label for="client-address" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Endereço de Entrega</label>
+                    <input type="text" id="client-address" required placeholder="Ex: Luanda, Talatona, Bairro Tal, Rua X, Casa nº 15" class="block w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all">
+                </div>
+                <div>
+                    <label for="client-reference" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ponto de Referência</label>
+                    <input type="text" id="client-reference" required placeholder="Ex: Próximo à Escola Primária ou Supermercado Kero" class="block w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all">
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="closeCheckoutModal()" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all text-sm">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="w-2/3 flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg text-sm">
+                        <i class="fab fa-whatsapp mr-2 text-base"></i> Enviar no WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- RODAPÉ (FOOTER) -->
+    <footer id="contacto" class="bg-slate-900 text-white pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-slate-800">
+                <!-- Sobre Nós -->
+                <div class="space-y-4">
+                    <span class="text-2xl font-extrabold text-blue-400 tracking-wider">ENE<span class="text-emerald-400">MBA</span></span>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        A ENEMBA é a sua melhor opção em Angola para produtos importados e serviços especializados, oferecendo sempre soluções inteligentes para cada necessidade.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://wa.me/244928190474" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-whatsapp text-xl"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links Úteis -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 border-l-2 border-blue-500 pl-3">Links Rápidos</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        <li><a href="#inicio" class="hover:text-white transition-colors">Início</a></li>
+                        <li><a href="#produtos" class="hover:text-white transition-colors">Nossos Produtos</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition-colors">Serviços Oferecidos</a></li>
+                        <li><a href="#categorias" class="hover:text-white transition-colors">Filtrar por Categoria</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto & Informações -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 border-l-2 border-emerald-500 pl-3">Informações de Contacto</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-location-dot mt-0.5 mr-2.5 text-emerald-400"></i>
+                            <span>Luanda, Angola</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone mr-2.5 text-emerald-400"></i>
+                            <span>+244 928 190 474</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope mr-2.5 text-emerald-400"></i>
+                            <span>suporte@angolashop.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Direitos de Cópia -->
+            <div class="pt-8 text-center text-sm text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 ENEMBA. Todos os direitos reservados.</p>
+                <p>Criado em conformidade com as melhores diretrizes internacionais de usabilidade.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGICA EM JAVASCRIPT -->
+    <script>
+        // Dados Estruturados dos Produtos
+        const products = [
+            {
+                id: 1,
+                title: "Smartphone Pro Max 256GB",
+                category: "eletronicos",
+                price: "450.000 Kz",
+                stock: 5,         // Stock disponível
+                sold: 48,         // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1565630916779-e303be97b6f5?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Este smartphone traz o que há de mais recente em tecnologia de desempenho móvel. Com câmera de altíssima resolução, processamento otimizado para tarefas pesadas e bateria de longa duração.",
+                specs: ["Câmara Traseira Tripla de 108MP", "Bateria de 5000 mAh", "Tela AMOLED de 120Hz", "Armazenamento de 256GB"]
+            },
+            {
+                id: 2,
+                title: "Auscultadores Wireless Noise Cancelling",
+                category: "eletronicos",
+                price: "85.000 Kz",
+                stock: 12,        // Stock disponível
+                sold: 114,        // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Cancelamento de ruído ativo inteligente, excelente reprodução de áudio de alta fidelidade e até 30 horas de autonomia. Ideal para quem estuda, trabalha ou simplesmente ama música em Angola.",
+                specs: ["Cancelamento de Ruído Híbrido", "Bluetooth 5.2", "Autonomia até 30 horas", "Design Ergonómico e Dobrável"]
+            },
+            {
+                id: 3,
+                title: "Ténis Desportivos Importados Urban",
+                category: "moda",
+                price: "42.000 Kz",
+                stock: 8,         // Stock disponível
+                sold: 84,         // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Leveza, conforto e estilo inigualável. Criado com tecnologia de ponta para caminhadas, treinos intensos ou o uso casual no seu dia-a-dia com excelente ventilação interna.",
+                specs: ["Palmilha de Absorção Ortopédica", "Tecido respirável", "Sola de borracha antiderrapante", "Importado com qualidade premium"]
+            },
+            {
+                id: 4,
+                title: "Relógio de Luxo Quartzo com Cronógrafo",
+                category: "moda",
+                price: "75.000 Kz",
+                stock: 4,         // Stock disponível
+                sold: 31,         // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Perfeito para homens de negócios e ocasiões formais. Vidro mineral antirreflexo, pulseira de aço inoxidável premium e resistência à água.",
+                specs: ["Resistente à Água (5 ATM)", "Função de Calendário e Cronógrafo", "Pulseira de aço inoxidável premium", "Movimento de Quartzo Japonês"]
+            },
+            {
+                id: 5,
+                title: "Lâmpada Inteligente RGB",
+                category: "casa",
+                price: "12.500 Kz",
+                stock: 25,        // Stock disponível
+                sold: 162,        // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1507646227500-4d389b0012be?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Crie o ambiente perfeito na sua casa em Angola. Controlável via app ou comandos de voz, dispõe de milhões de cores e ritmos de luminosidade configuráveis.",
+                specs: ["16 Milhões de Cores RGB", "Conectividade Wi-Fi e Bluetooth", "Compatível com Alexa/Google Home", "Poupança inteligente de energia de classe A++"]
+            },
+            {
+                id: 6,
+                title: "Mochila Multifuncional Anti-Roubo",
+                category: "moda",
+                price: "24.000 Kz",
+                stock: 10,        // Stock disponível
+                sold: 95,         // Unidades já compradas
+                mainImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&q=80&w=600"
+                ],
+                description: "Ideal para viagens ou para levar o seu computador portátil para o trabalho ou universidade com máxima segurança graças ao seu zíper embutido e material impermeável.",
+                specs: ["Porta de Carregamento USB Integrada", "Tecido Impermeável Reforçado", "Compartimento para Laptop até 15.6 pol", "Segredo embutido anti-furto"]
+            }
+        ];
+
+        let currentCategory = 'todos';
+        let searchQuery = '';
+        let quantities = {}; // Seleções temporárias de quantidade por produto
+        let cart = {}; // Estrutura de Carrinho: { [productId]: quantidade }
+        let currentModalProductId = null;
+
+        // Inicializar quantidades temporárias em 0
+        products.forEach(p => {
+            quantities[p.id] = 0;
+        });
+
+        // Função para mostrar Notificação Toast de forma Elegante
+        function showToast(message, type = 'warning') {
+            const container = document.getElementById('toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = `transform translate-y-5 opacity-0 transition-all duration-300 pointer-events-auto flex items-center p-4 rounded-xl shadow-xl max-w-sm w-full border ${
+                type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+            }`;
+            
+            const icon = type === 'warning' 
+                ? '<i class="fa-solid fa-triangle-exclamation text-amber-500 mr-3 text-lg"></i>' 
+                : '<i class="fa-solid fa-circle-check text-emerald-500 mr-3 text-lg"></i>';
+
+            toast.innerHTML = `
+                ${icon}
+                <div class="text-sm font-semibold flex-1">${message}</div>
+                <button class="ml-auto text-gray-400 hover:text-gray-600 pl-3 focus:outline-none" onclick="this.parentElement.remove()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        }
+
+        // Incrementar Quantidade na Vitrina Principal com Validação de Stock Máximo
+        function incrementQty(productId, event) {
+            if (event) event.stopPropagation(); // Evita clique do card
+            
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const currentVal = quantities[productId] || 0;
+            const inCartVal = cart[productId] || 0;
+
+            if (currentVal + inCartVal < product.stock) {
+                quantities[productId] = currentVal + 1;
+                document.getElementById(`qty-display-${productId}`).innerText = quantities[productId];
+            } else {
+                showToast(`Ups! O stock total para "${product.title}" é de ${product.stock} unidades e já atingiu o limite disponível.`, 'warning');
+            }
+        }
+
+        // Decrementar Quantidade na Vitrina Principal
+        function decrementQty(productId, event) {
+            if (event) event.stopPropagation();
+            if (quantities[productId] > 0) {
+                quantities[productId]--;
+                document.getElementById(`qty-display-${productId}`).innerText = quantities[productId];
+            }
+        }
+
+        // Incrementar Quantidade dentro do Modal de Detalhes
+        function incrementModalQty() {
+            if (!currentModalProductId) return;
+            incrementQty(currentModalProductId);
+            document.getElementById('modal-qty-display').innerText = quantities[currentModalProductId];
+        }
+
+        // Decrementar Quantidade dentro do Modal de Detalhes
+        function decrementModalQty() {
+            if (!currentModalProductId) return;
+            decrementQty(currentModalProductId);
+            document.getElementById('modal-qty-display').innerText = quantities[currentModalProductId];
+        }
+
+        // Adicionar Produto ao Carrinho
+        function addProductToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const qty = quantities[productId] || 0;
+
+            if (qty === 0) {
+                showToast(`Selecione pelo menos 1 unidade para adicionar ao carrinho.`, 'warning');
+                return;
+            }
+
+            // Adicionar ao estado de carrinho geral
+            cart[productId] = (cart[productId] || 0) + qty;
+            
+            // Resetar seletor do card para zero
+            quantities[productId] = 0;
+            const cardDisplay = document.getElementById(`qty-display-${productId}`);
+            if (cardDisplay) cardDisplay.innerText = '0';
+
+            showToast(`Adicionado ao carrinho com sucesso: ${qty}x ${product.title}`, 'success');
+            
+            updateCartUI();
+        }
+
+        // Adicionar ao carrinho a partir do Modal de Detalhes
+        function addProductToCartFromModal() {
+            if (!currentModalProductId) return;
+            addProductToCart(currentModalProductId);
+            closeModal();
+        }
+
+        // Converter preço formatado (ex: "450.000 Kz") em número inteiro (ex: 450000)
+        function cleanPrice(priceStr) {
+            return parseInt(priceStr.replace(/\D/g, ''), 10);
+        }
+
+        // Formatar número inteiro para representação em Kz (ex: 450000 -> "450.000 Kz")
+        function formatPrice(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " Kz";
+        }
+
+        // Atualizar todos os contadores e badges de Carrinho na Página
+        function updateCartUI() {
+            let totalItems = 0;
+            let totalVal = 0;
+
+            Object.keys(cart).forEach(id => {
+                const product = products.find(p => p.id == id);
+                if (product && cart[id] > 0) {
+                    totalItems += cart[id];
+                    totalVal += cleanPrice(product.price) * cart[id];
+                }
+            });
+
+            // Atualizar os emblemas de quantidade no site (Header, Mobile, Flutuante)
+            document.getElementById('cart-badge-header').innerText = totalItems;
+            document.getElementById('cart-badge-float').innerText = totalItems;
+            document.getElementById('cart-badge-mobile-btn').innerText = totalItems;
+            
+            document.getElementById('cart-total-float').innerText = formatPrice(totalVal);
+            document.getElementById('cart-total-display').innerText = formatPrice(totalVal);
+
+            // Animação de entrada/saída do botão flutuante de carrinho
+            const floatingBtn = document.getElementById('floating-cart');
+            if (totalItems > 0) {
+                floatingBtn.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+                floatingBtn.classList.add('translate-y-0', 'opacity-100');
+            } else {
+                floatingBtn.classList.remove('translate-y-0', 'opacity-100');
+                floatingBtn.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }
+        }
+
+        // Abrir Modal de Carrinho de Compras
+        function openCart() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            let hasItems = false;
+
+            Object.keys(cart).forEach(id => {
+                const qty = cart[id];
+                if (qty <= 0) return;
+
+                hasItems = true;
+                const product = products.find(p => p.id == id);
+                if (!product) return;
+
+                const itemSubtotal = cleanPrice(product.price) * qty;
+
+                const itemElement = document.createElement('div');
+                itemElement.className = "flex items-center gap-4 bg-gray-50 p-3 rounded-2xl border border-gray-100 relative";
+                itemElement.innerHTML = `
+                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
+                        <img src="${product.mainImage}" alt="${product.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-gray-900 text-sm truncate pr-6">${product.title}</h4>
+                        <p class="text-xs text-blue-600 font-extrabold mt-0.5">${product.price}</p>
+                        
+                        <!-- Controles de Quantidade no Carrinho -->
+                        <div class="flex items-center justify-between mt-2 max-w-[110px] bg-white rounded-lg p-0.5 border border-gray-200">
+                            <button onclick="changeCartItemQty(${product.id}, -1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-gray-100 rounded text-gray-700 text-xs">-</button>
+                            <span class="text-xs font-black text-gray-900">${qty}</span>
+                            <button onclick="changeCartItemQty(${product.id}, 1)" class="w-6 h-6 flex items-center justify-center font-bold hover:bg-gray-100 rounded text-gray-700 text-xs">+</button>
+                        </div>
+                    </div>
+                    <div class="text-right flex flex-col justify-between items-end">
+                        <button onclick="removeCartItem(${product.id})" class="text-gray-400 hover:text-red-500 transition-colors mb-3">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <span class="text-xs font-black text-gray-900">${formatPrice(itemSubtotal)}</span>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+
+            if (!hasItems) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="w-16 h-16 bg-gray-100 text-gray-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-basket-shopping text-2xl"></i>
+                        </div>
+                        <h4 class="text-gray-900 font-bold text-base">Carrinho Vazio</h4>
+                        <p class="text-gray-400 text-xs mt-1">Explore a loja e adicione ótimos produtos importados!</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('cart-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // Fechar Modal de Carrinho
+        function closeCart() {
+            document.getElementById('cart-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Alterar quantidade do item diretamente dentro do carrinho
+        function changeCartItemQty(productId, delta) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const currentQty = cart[productId] || 0;
+            const newQty = currentQty + delta;
+
+            if (newQty <= 0) {
+                removeCartItem(productId);
+                return;
+            }
+
+            if (newQty <= product.stock) {
+                cart[productId] = newQty;
+                updateCartUI();
+                openCart(); // Atualizar visualização do carrinho
+            } else {
+                showToast(`Ups! O stock total para "${product.title}" é de ${product.stock} unidades.`, 'warning');
+            }
+        }
+
+        // Remover item do carrinho de vez
+        function removeCartItem(productId) {
+            delete cart[productId];
+            updateCartUI();
+            openCart();
+        }
+
+        // Avançar para o Checkout / Fornecer dados de entrega
+        function proceedToCheckout() {
+            let totalItems = 0;
+            Object.keys(cart).forEach(id => {
+                if (cart[id] > 0) totalItems += cart[id];
+            });
+
+            if (totalItems === 0) {
+                showToast("Adicione produtos ao carrinho antes de prosseguir com a encomenda.", "warning");
+                return;
+            }
+
+            closeCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // Fechar modal de recolha de dados de entrega
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Confirmar pedido e montar a mensagem completa e calculada para o WhatsApp
+        function confirmCheckout() {
+            const clientName = document.getElementById('client-name').value.trim();
+            const clientAddress = document.getElementById('client-address').value.trim();
+            const clientReference = document.getElementById('client-reference').value.trim();
+
+            if (!clientName || !clientAddress || !clientReference) {
+                showToast("Por favor, preencha todos os campos do formulário para continuarmos.", "warning");
+                return;
+            }
+
+            // Construir bloco dos produtos encomendados
+            let productsText = "";
+            let overallTotal = 0;
+            let counter = 1;
+
+            Object.keys(cart).forEach(id => {
+                const qty = cart[id];
+                if (qty <= 0) return;
+
+                const product = products.find(p => p.id == id);
+                if (!product) return;
+
+                const itemSubtotal = cleanPrice(product.price) * qty;
+                overallTotal += itemSubtotal;
+
+                // Gerar link de referência seguro (resolvendo problema de sandbox que retorna window.origin como "null")
+                const safeOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'https://enemba.com';
+                const productLink = `${safeOrigin}${window.location.pathname}?prod=${product.id}#produtos`;
+
+                productsText += `${counter}. *${product.title}*\n` +
+                                `   - Quantidade: ${qty}x\n` +
+                                `   - Preço Unitário: ${product.price}\n` +
+                                `   - Subtotal: ${formatPrice(itemSubtotal)}\n` +
+                                `   - Link: ${productLink}\n\n`;
+                counter++;
+            });
+
+            // Construir mensagem estruturada unificada
+            const finalMessage = `Olá ENEMBA! Gostaria de encomendar os seguintes produtos:\n\n` +
+                                 `*--- PRODUTOS SOLICITADOS ---*\n` +
+                                 productsText +
+                                 `*VALOR TOTAL DA COMPRA:* ${formatPrice(overallTotal)}\n\n` +
+                                 `*--- DADOS PARA ENTREGA ---*\n` +
+                                 `*Cliente:* ${clientName}\n` +
+                                 `*Endereço:* ${clientAddress}\n` +
+                                 `*Ponto de Referência:* ${clientReference}\n\n` +
+                                 `Por favor, confirmem o meu pedido para podermos coordenar a entrega. Obrigado!`;
+
+            const encodedText = encodeURIComponent(finalMessage);
+            const whatsappLink = `https://wa.me/244928190474?text=${encodedText}`;
+
+            // Abrir WhatsApp com o pedido completo e unificado
+            window.open(whatsappLink, '_blank');
+
+            // Limpar dados do carrinho e formulário após envio bem sucedido
+            cart = {};
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-address').value = '';
+            document.getElementById('client-reference').value = '';
+            updateCartUI();
+            closeCheckoutModal();
+            
+            showToast("Encomenda enviada com sucesso para o WhatsApp da ENEMBA!", "success");
+        }
+
+        // Renderizar produtos na página principal
+        function renderProducts(productsList) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            productsList.forEach(product => {
+                const currentQty = quantities[product.id] || 0;
+                
+                // Determinar badge de stock (Cor vermelha/laranja se estiver baixo)
+                let stockClass = "bg-emerald-50 text-emerald-700";
+                let stockText = `${product.stock} em stock`;
+                if (product.stock <= 5) {
+                    stockClass = "bg-amber-50 text-amber-700 font-semibold";
+                    stockText = `Apenas ${product.stock} em stock!`;
+                }
+
+                const card = `
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 flex flex-col justify-between group">
+                        <!-- Imagem do Produto (Abre os detalhes e todas as fotos) -->
+                        <div class="relative overflow-hidden bg-gray-100 cursor-pointer" onclick="openProductDetails(${product.id})">
+                            <img src="${product.mainImage}" alt="[${product.title}]" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <span class="bg-white text-gray-900 font-semibold px-4 py-2 rounded-full text-xs shadow">
+                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Ver Detalhes & Fotos
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo da Vitrine Principal -->
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <!-- Indicadores de Venda e Stock -->
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <span class="text-[11px] font-medium px-2 py-0.5 rounded-full ${stockClass}">
+                                        <i class="fa-solid fa-box mr-1"></i>${stockText}
+                                    </span>
+                                    <span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
+                                        🔥 ${product.sold} já comprados
+                                    </span>
+                                </div>
+
+                                <h3 class="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors line-clamp-1 mb-1">${product.title}</h3>
+                                <p class="text-xl font-extrabold text-blue-600 mb-4">${product.price}</p>
+                            </div>
+
+                            <div class="space-y-3">
+                                <!-- Seletor de Quantidade do Produto -->
+                                <div>
+                                    <div class="flex items-center justify-between bg-gray-100 rounded-xl p-1">
+                                        <button onclick="decrementQty(${product.id}, event)" class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center hover:bg-gray-200 text-gray-700 transition-colors font-bold">-</button>
+                                        <div class="text-center">
+                                            <span id="qty-display-${product.id}" class="font-extrabold text-gray-800 text-sm block leading-none">${currentQty}</span>
+                                            <span class="text-[9px] text-gray-400 font-semibold uppercase leading-none">Qtd</span>
+                                        </div>
+                                        <button onclick="incrementQty(${product.id}, event)" class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center hover:bg-gray-200 text-gray-700 transition-colors font-bold">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Link para abrir galeria completa e especificações -->
+                                <button onclick="openProductDetails(${product.id})" class="w-full text-center text-xs text-blue-600 hover:text-blue-800 font-semibold py-1.5 border border-dashed border-blue-200 rounded-lg bg-blue-50/50 hover:bg-blue-50 block">
+                                    Mais fotos e especificações
+                                </button>
+
+                                <!-- Botão de Adicionar ao Carrinho -->
+                                <button onclick="addProductToCart(${product.id})" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-colors flex items-center justify-center gap-2 shadow-sm hover:shadow">
+                                    <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Aplicar filtros de categoria e de pesquisa em tempo real
+        function applyFilters() {
+            let filtered = products;
+
+            // 1. Filtrar por Categoria
+            if (currentCategory !== 'todos') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            // 2. Filtrar pela Barra de Pesquisa
+            if (searchQuery.trim() !== '') {
+                const query = searchQuery.toLowerCase().trim();
+                filtered = filtered.filter(p => 
+                    p.title.toLowerCase().includes(query) ||
+                    p.description.toLowerCase().includes(query) ||
+                    p.specs.some(spec => spec.toLowerCase().includes(query))
+                );
+            }
+
+            const grid = document.getElementById('products-grid');
+            const noResults = document.getElementById('no-results');
+
+            // 3. Atualizar a Interface
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+                renderProducts(filtered);
+            }
+        }
+
+        // Filtro de Categorias interativo
+        function filterCategory(categoryName) {
+            currentCategory = categoryName;
+
+            // Atualizar classes ativas nos botões
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            });
+
+            const activeBtn = document.getElementById(`btn-${categoryName}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+            }
+
+            applyFilters();
+        }
+
+        // Tratar entrada de texto na barra de pesquisa
+        function handleSearch(value) {
+            searchQuery = value;
+
+            // Exibir ou ocultar o botão "X" para limpar
+            const clearBtn = document.getElementById('clear-search');
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            applyFilters();
+        }
+
+        // Limpar a barra de pesquisa individualmente
+        function clearSearch() {
+            const searchInput = document.getElementById('product-search');
+            searchInput.value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            searchQuery = '';
+            applyFilters();
+        }
+
+        // Redefinir todos os filtros de uma vez (Categoria e Pesquisa)
+        function clearAllFilters() {
+            clearSearch();
+            filterCategory('todos');
+        }
+
+        // Abrir Detalhes do Produto no Modal
+        function openProductDetails(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            currentModalProductId = product.id;
+
+            document.getElementById('modal-title').innerText = product.title;
+            document.getElementById('modal-price').innerText = product.price;
+            document.getElementById('modal-desc').innerText = product.description;
+            document.getElementById('modal-tag').innerText = product.category.toUpperCase();
+            
+            // Injetar dados de stock e comprados no Modal
+            document.getElementById('modal-stock-badge').className = `text-xs font-medium px-2.5 py-1 rounded-full ${
+                product.stock <= 5 ? 'bg-amber-50 text-amber-700 font-semibold' : 'bg-emerald-50 text-emerald-700'
+            }`;
+            document.getElementById('modal-stock-badge').innerHTML = `<i class="fa-solid fa-box mr-1"></i> Stock: ${product.stock} unidades disponíveis`;
+            document.getElementById('modal-sold-badge').innerHTML = `<i class="fa-solid fa-fire mr-1 text-amber-500"></i> ${product.sold} já compradas`;
+
+            // Sincronizar quantidade selecionada com o estado
+            document.getElementById('modal-qty-display').innerText = quantities[product.id] || 0;
+            
+            // Configurar imagem principal no modal
+            const mainImg = document.getElementById('modal-main-img');
+            mainImg.src = product.mainImage;
+
+            // Criar a galeria de miniaturas
+            const thumbsContainer = document.getElementById('modal-thumbnails');
+            thumbsContainer.innerHTML = '';
+            product.additionalImages.forEach(imgUrl => {
+                const thumb = document.createElement('div');
+                thumb.className = 'cursor-pointer rounded-lg overflow-hidden border border-gray-200 aspect-square';
+                thumb.innerHTML = `<img src="${imgUrl}" alt="[Foto Adicional]" class="w-full h-full object-cover hover:opacity-85" onclick="changeModalMainImage('${imgUrl}')">`;
+                thumbsContainer.appendChild(thumb);
+            });
+
+            // Adicionar especificações técnicas
+            const specsList = document.getElementById('modal-specs');
+            specsList.innerHTML = '';
+            product.specs.forEach(spec => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center text-xs sm:text-sm';
+                li.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i> ${spec}`;
+                specsList.appendChild(li);
+            });
+
+            // Mostrar modal
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // Trocar imagem principal no modal ao clicar nas miniaturas
+        function changeModalMainImage(url) {
+            document.getElementById('modal-main-img').src = url;
+        }
+
+        // Fechar Modal de detalhes (Corrigido para usar applyFilters() e manter estado ativo)
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            currentModalProductId = null;
+            applyFilters(); // Corrige redefinição bruta de filtros!
+        }
+
+        // Toggle do Menu Mobile
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.className = "fa-solid fa-xmark text-xl";
+            } else {
+                menu.classList.add('hidden');
+                icon.className = "fa-solid fa-bars text-xl";
+            }
+        }
+
+        // Fechar modal ao clicar fora do conteúdo principal
+        window.onclick = function(event) {
+            const modal = document.getElementById('product-modal');
+            const checkoutModal = document.getElementById('checkout-modal');
+            const cartModal = document.getElementById('cart-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+            if (event.target === checkoutModal) {
+                closeCheckoutModal();
+            }
+            if (event.target === cartModal) {
+                closeCart();
+            }
+        }
+
+        // Inicializar com todos os produtos renderizados na abertura
+        window.onload = function() {
+            renderProducts(products);
+            updateCartUI();
+
+            // Abrir Produto Automático se enviado ID pela URL (?prod=ID)
+            const urlParams = new URLSearchParams(window.location.search);
+            const prodId = urlParams.get('prod');
+            if (prodId) {
+                const id = parseInt(prodId);
+                if (!isNaN(id)) {
+                    setTimeout(() => {
+                        openProductDetails(id);
+                    }, 400);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
