@@ -47,6 +47,7 @@
                     <a href="#produtos" class="text-gray-500 hover:text-blue-600 transition-colors">Produtos</a>
                     <a href="#categorias" class="text-gray-500 hover:text-blue-600 transition-colors">Categorias</a>
                     <a href="#servicos" class="text-gray-500 hover:text-blue-600 transition-colors">Serviços</a>
+                    <a href="#simulador" class="text-gray-500 hover:text-blue-600 transition-colors">Simulador</a>
                     <a href="#contacto" class="text-gray-500 hover:text-blue-600 transition-colors">Contacto</a>
                 </nav>
 
@@ -84,6 +85,7 @@
             <a href="#produtos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Produtos</a>
             <a href="#categorias" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Categorias</a>
             <a href="#servicos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Serviços</a>
+            <a href="#simulador" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Simulador</a>
             <a href="#contacto" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Contacto</a>
             <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre a ENEMBA." 
                target="_blank" 
@@ -111,8 +113,8 @@
                     <a href="#produtos" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all text-center">
                         Ver Produtos
                     </a>
-                    <a href="#servicos" class="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-lg transition-all text-center">
-                        Serviços
+                    <a href="#simulador" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all text-center">
+                        Simulador Financeiro
                     </a>
                 </div>
             </div>
@@ -259,6 +261,173 @@
             </div>
         </div>
     </section>
+
+    <!-- SECÇÃO SIMULADOR FINANCEIRO DE IMPORTAÇÃO -->
+    <section id="simulador" class="py-20 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-sm font-bold tracking-widest text-indigo-600 uppercase">Calculadora Inteligente</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mt-2">Simulador Financeiro de Importação</h2>
+                <p class="mt-4 text-lg text-gray-500">Calcule com precisão custos logísticos, margens, preços ideais de revenda e projeções de lucro para o mercado de Angola.</p>
+            </div>
+
+            <!-- Card Principal do Simulador -->
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                <div class="bg-indigo-950 p-6 text-center text-white">
+                    <h3 class="text-xl font-bold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calculator text-emerald-400"></i> Parâmetros de Custos e Prospecção (AOA)
+                    </h3>
+                </div>
+
+                <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Form / Inputs -->
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2 sm:col-span-1">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Custo por CBM/PESO (AOA)</label>
+                                <input type="number" id="valorCbm" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="AOA 0,00">
+                            </div>
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="text-xs font-semibold text-slate-500 uppercase flex items-center justify-between">
+                                    CBM/PESO do Produto 
+                                    <button onclick="toggleCbmModal(true)" class="text-indigo-600 hover:text-indigo-800 transition">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </label>
+                                <input type="number" id="cbmProduto" class="w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" step="0.001" placeholder="0,00">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Custo Unitário do Produto (AOA)</label>
+                            <input type="number" id="valorProduto" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="AOA 0,00">
+                        </div>
+
+                        <div class="border-t border-slate-100 pt-4">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Houve frete fornecedor -> agente?</label>
+                            <select id="temFrete" onchange="toggleFreteCampos()" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-semibold">
+                                <option value="nao">Não</option>
+                                <option value="sim">Sim</option>
+                            </select>
+                        </div>
+
+                        <div id="camposFrete" class="hidden grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Valor Frete (AOA)</label>
+                                <input type="number" id="valorFreteFornecedor" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="AOA 0,00">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Qtd Itens</label>
+                                <input type="number" id="qtdItensFrete" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="Ex: 100">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Embalagem (AOA)</label>
+                                <input type="number" id="custoEmbalagem" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="AOA 0,00">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Entrega Cliente (AOA)</label>
+                                <input type="number" id="custoEntrega" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="AOA 0,00">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Margem de Lucro (%)</label>
+                                <select id="margemLucro" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-semibold">
+                                    <!-- Preenchido dinamicamente no script -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Vendas Estimadas / Mês</label>
+                                <input type="number" id="vendasMensais" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" placeholder="Unidades">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resultados de Projeção -->
+                    <div class="bg-slate-900 rounded-2xl p-6 flex flex-col justify-between text-white shadow-inner">
+                        <div>
+                            <h4 class="text-md font-medium text-slate-400 mb-6 flex items-center gap-2 uppercase tracking-wider text-xs">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Projeção de Resultados Gerais
+                            </h4>
+                            <div class="space-y-6">
+                                <div>
+                                    <span class="text-slate-400 text-xs sm:text-sm block">Preço de Venda Unitário Sugerido</span>
+                                    <div id="precoVenda" class="text-3xl sm:text-4xl font-extrabold text-emerald-400 mt-1">0,00 Kz</div>
+                                </div>
+                                <div class="flex justify-between border-t border-slate-800 pt-4 gap-4">
+                                    <div>
+                                        <span class="text-slate-400 text-[11px] uppercase block tracking-wider">Receita Mensal</span>
+                                        <div id="receitaMensal" class="text-lg font-bold mt-1 text-slate-200">0,00 Kz</div>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 text-[11px] uppercase block tracking-wider">Lucro Mensal Líquido</span>
+                                        <div id="lucroMensal" class="text-lg font-bold text-emerald-400 mt-1">0,00 Kz</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="calcularImportacao()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-indigo-600/20 mt-8 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Calcular Resultados
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL CALCULADORA CBM (Do Simulador) -->
+    <div id="modalCbm" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl relative">
+            <button onclick="toggleCbmModal(false)" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-500 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-cube text-indigo-600"></i> Calculadora CBM (Volume)
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Comp. (cm)</label>
+                    <input type="number" id="modComp" class="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none text-sm" placeholder="0">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Larg. (cm)</label>
+                    <input type="number" id="modLarg" class="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none text-sm" placeholder="0">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Alt. (cm)</label>
+                    <input type="number" id="modAlt" class="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none text-sm" placeholder="0">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Qtd na Caixa</label>
+                    <input type="number" id="modQtd" value="1" class="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-lg outline-none text-sm font-semibold" placeholder="1">
+                </div>
+            </div>
+
+            <div class="mt-5 p-4 bg-slate-50 rounded-xl text-center space-y-2 border border-slate-100">
+                <div>
+                    <span class="text-slate-500 text-[10px] uppercase font-bold block">CBM Total Caixa:</span>
+                    <div id="resultadoTotalCbm" class="text-base font-bold text-slate-700">0.0000</div>
+                </div>
+                <div class="border-t border-slate-200 pt-2">
+                    <span class="text-slate-500 text-[10px] uppercase font-bold block">CBM por Unidade:</span>
+                    <div id="resultadoUnitCbm" class="text-xl font-black text-indigo-600">0.0000</div>
+                </div>
+            </div>
+
+            <div class="flex gap-2 mt-6">
+                <button onclick="calcularModalCbm()" class="flex-1 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 text-sm transition-colors">Calcular</button>
+                <button onclick="usarCbm()" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 text-sm transition-colors shadow">Aplicar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL DE DETALHES DO PRODUTO (Dinamizado por Javascript) -->
     <div id="product-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 hidden overflow-y-auto">
@@ -438,6 +607,7 @@
                         <li><a href="#inicio" class="hover:text-white transition-colors">Início</a></li>
                         <li><a href="#produtos" class="hover:text-white transition-colors">Nossos Produtos</a></li>
                         <li><a href="#servicos" class="hover:text-white transition-colors">Serviços Oferecidos</a></li>
+                        <li><a href="#simulador" class="hover:text-white transition-colors">Simulador de Custos</a></li>
                         <li><a href="#categorias" class="hover:text-white transition-colors">Filtrar por Categoria</a></li>
                     </ul>
                 </div>
@@ -626,7 +796,8 @@
 
             if (currentVal + inCartVal < product.stock) {
                 quantities[productId] = currentVal + 1;
-                document.getElementById(`qty-display-${productId}`).innerText = quantities[productId];
+                const qtyElement = document.getElementById(`qty-display-${productId}`);
+                if (qtyElement) qtyElement.innerText = quantities[productId];
             } else {
                 showToast(`Ups! O stock total para "${product.title}" é de ${product.stock} unidades e já atingiu o limite disponível.`, 'warning');
             }
@@ -637,7 +808,8 @@
             if (event) event.stopPropagation();
             if (quantities[productId] > 0) {
                 quantities[productId]--;
-                document.getElementById(`qty-display-${productId}`).innerText = quantities[productId];
+                const qtyElement = document.getElementById(`qty-display-${productId}`);
+                if (qtyElement) qtyElement.innerText = quantities[productId];
             }
         }
 
@@ -1127,12 +1299,12 @@
             document.getElementById('modal-main-img').src = url;
         }
 
-        // Fechar Modal de detalhes (Corrigido para usar applyFilters() e manter estado ativo)
+        // Fechar Modal de detalhes
         function closeModal() {
             document.getElementById('product-modal').classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
             currentModalProductId = null;
-            applyFilters(); // Corrige redefinição bruta de filtros!
+            applyFilters();
         }
 
         // Toggle do Menu Mobile
@@ -1153,6 +1325,8 @@
             const modal = document.getElementById('product-modal');
             const checkoutModal = document.getElementById('checkout-modal');
             const cartModal = document.getElementById('cart-modal');
+            const cbmModal = document.getElementById('modalCbm');
+            
             if (event.target === modal) {
                 closeModal();
             }
@@ -1162,12 +1336,122 @@
             if (event.target === cartModal) {
                 closeCart();
             }
+            if (event.target === cbmModal) {
+                toggleCbmModal(false);
+            }
         }
+
+
+        // ==========================================
+        // LÓGICA DO SIMULADOR FINANCEIRO DE IMPORTAÇÃO
+        // ==========================================
+
+        // Preencher o dropdown de margem de lucro de 20% a 300%
+        function populateProfitMarginDropdown() {
+            const selectMargem = document.getElementById('margemLucro');
+            if (!selectMargem) return;
+            selectMargem.innerHTML = ''; // Limpa antes de preencher
+            for (let i = 20; i <= 300; i += 5) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = i + '%';
+                if (i === 50) option.selected = true; // Padrão recomendado de 50%
+                selectMargem.appendChild(option);
+            }
+        }
+
+        // Alternar visualização do modal de CBM
+        function toggleCbmModal(show) {
+            const modal = document.getElementById('modalCbm');
+            if (modal) {
+                modal.classList.toggle('hidden', !show);
+                if (show) {
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+        }
+
+        // Calcular Volume de CBM no modal da calculadora
+        function calcularModalCbm() {
+            const comp = parseFloat(document.getElementById('modComp').value) || 0;
+            const larg = parseFloat(document.getElementById('modLarg').value) || 0;
+            const alt = parseFloat(document.getElementById('modAlt').value) || 0;
+            const qtd = parseFloat(document.getElementById('modQtd').value) || 1;
+            
+            const totalCbm = (comp * larg * alt) / 1000000;
+            const unitCbm = qtd > 0 ? (totalCbm / qtd) : totalCbm;
+
+            document.getElementById('resultadoTotalCbm').innerText = totalCbm.toFixed(4);
+            document.getElementById('resultadoUnitCbm').innerText = unitCbm.toFixed(4);
+        }
+
+        // Aplicar o valor calculado de CBM no input do simulador
+        function usarCbm() {
+            const val = document.getElementById('resultadoUnitCbm').innerText;
+            const inputCbm = document.getElementById('cbmProduto');
+            if (inputCbm) {
+                inputCbm.value = val;
+            }
+            toggleCbmModal(false);
+            showToast("Medida de CBM unitária aplicada com sucesso!", "success");
+        }
+
+        // Mostrar ou ocultar campos adicionais de frete nacional/agente
+        function toggleFreteCampos() {
+            const temFrete = document.getElementById('temFrete').value;
+            const camposFrete = document.getElementById('camposFrete');
+            if (temFrete === 'sim') {
+                camposFrete.classList.remove('hidden');
+                camposFrete.classList.add('grid');
+            } else {
+                camposFrete.classList.add('hidden');
+            }
+        }
+
+        // Calcular custos de importação, projeções e lucros em Kwanzas
+        function calcularImportacao() {
+            const vCbm = parseFloat(document.getElementById('valorCbm').value) || 0;
+            const vProd = parseFloat(document.getElementById('valorProduto').value) || 0;
+            const cbmProd = parseFloat(document.getElementById('cbmProduto').value) || 0;
+            
+            const temFrete = document.getElementById('temFrete').value === 'sim';
+            const vFrete = temFrete ? parseFloat(document.getElementById('valorFreteFornecedor').value) || 0 : 0;
+            const qFrete = temFrete ? parseFloat(document.getElementById('qtdItensFrete').value) || 1 : 1;
+            const freteUnitario = (qFrete > 0) ? (vFrete / qFrete) : 0;
+
+            const cEntrega = parseFloat(document.getElementById('custoEntrega').value) || 0;
+            const cEmb = parseFloat(document.getElementById('custoEmbalagem').value) || 0;
+            const margem = parseFloat(document.getElementById('margemLucro').value) || 0;
+            const qtd = parseFloat(document.getElementById('vendasMensais').value) || 0;
+
+            // Fórmulas Calculadoras
+            const custoTotalUnitario = vProd + (cbmProd * vCbm) + freteUnitario;
+            const precoVenda = custoTotalUnitario * (1 + (margem / 100)) + cEmb + cEntrega;
+            const receitaMensal = precoVenda * qtd;
+            const lucroMensal = (precoVenda - custoTotalUnitario) * qtd;
+
+            // Formatador em moeda local (AOA / Kz)
+            const formatter = new Intl.NumberFormat('pt-AO', {
+                style: 'currency',
+                currency: 'AOA',
+                minimumFractionDigits: 2
+            });
+
+            document.getElementById('precoVenda').innerText = formatter.format(precoVenda).replace("AOA", "Kz");
+            document.getElementById('receitaMensal').innerText = formatter.format(receitaMensal).replace("AOA", "Kz");
+            document.getElementById('lucroMensal').innerText = formatter.format(lucroMensal).replace("AOA", "Kz");
+
+            showToast("Contas e projeções calculadas com sucesso!", "success");
+        }
+
 
         // Inicializar com todos os produtos renderizados na abertura
         window.onload = function() {
             renderProducts(products);
             updateCartUI();
+            populateProfitMarginDropdown();
 
             // Abrir Produto Automático se enviado ID pela URL (?prod=ID)
             const urlParams = new URLSearchParams(window.location.search);
