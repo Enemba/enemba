@@ -36,62 +36,98 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo com Slogan Debaixo -->
-                <div class="flex-shrink-0 flex flex-col justify-center">
+                <div class="flex-shrink-0 flex flex-col justify-center cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                     <span class="text-2xl font-extrabold text-blue-600 tracking-wider leading-none">ENE<span class="text-emerald-500">MBA</span></span>
                     <span class="text-[8px] sm:text-[9px] text-gray-500 font-semibold tracking-wide mt-1 leading-none uppercase">Soluções inteligentes para cada necessidade</span>
                 </div>
                 
-                <!-- Links Desktop -->
-                <nav class="hidden md:flex space-x-6 lg:space-x-8 text-sm font-medium items-center">
-                    <a href="#inicio" class="text-gray-950 hover:text-blue-600 transition-colors">Início</a>
-                    <a href="#produtos" class="text-gray-500 hover:text-blue-600 transition-colors">Produtos</a>
-                    <a href="#categorias" class="text-gray-500 hover:text-blue-600 transition-colors">Categorias</a>
-                    <a href="#servicos" class="text-gray-500 hover:text-blue-600 transition-colors">Serviços</a>
-                    <a href="#simulador" class="text-gray-500 hover:text-blue-600 transition-colors">Simulador</a>
-                    <a href="#contacto" class="text-gray-500 hover:text-blue-600 transition-colors">Contacto</a>
+                <!-- Links Desktop (Simplificados para manter a estética limpa) -->
+                <nav class="hidden md:flex space-x-8 text-sm font-semibold items-center">
+                    <a href="#inicio" class="text-gray-600 hover:text-blue-600 transition-colors">Início</a>
+                    <a href="#produtos" class="text-gray-600 hover:text-blue-600 transition-colors">Produtos</a>
+                    
+                    <!-- Menu Dropdown para opções secundárias -->
+                    <div class="relative group">
+                        <button class="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+                            Mais <i class="fa-solid fa-chevron-down ml-1 text-[10px]"></i>
+                        </button>
+                        <div class="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 w-44 p-2 hidden group-hover:block z-50">
+                            <a href="#servicos" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg transition-colors">Serviços</a>
+                            <a href="#simulador" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg transition-colors">Simulador</a>
+                            <a href="#contacto" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-blue-600 rounded-lg transition-colors">Contacto</a>
+                        </div>
+                    </div>
                 </nav>
 
-                <!-- Botões de Ação Rápida (Carrinho e WhatsApp) -->
-                <div class="hidden md:flex items-center gap-4">
+                <!-- Botões de Ação Rápida (Carrinho, Meus Pedidos e WhatsApp agrupados esteticamente) -->
+                <div class="hidden md:flex items-center gap-2">
+                    <!-- Histórico de Pedidos no Header (Separado e Estilizado) -->
+                    <button onclick="openOrdersModal()" title="Meus Pedidos" class="relative p-2.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all">
+                        <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+                    </button>
+
                     <!-- Botão do Carrinho no Header -->
-                    <button onclick="openCart()" class="relative p-2.5 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all">
-                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    <button onclick="openCart()" title="Meu Carrinho" class="relative p-2.5 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all mr-2">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
                         <span id="cart-badge-header" class="absolute top-0 right-0 bg-red-500 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">0</span>
                     </button>
+
+                    <a href="https://chat.whatsapp.com/SEU_CODIGO_DA_COMUNIDADE" 
+                       target="_blank" 
+                       title="Aderir à nossa Comunidade"
+                       class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-semibold rounded-full text-blue-600 bg-blue-50 hover:bg-blue-100 transition-all mr-1">
+                        <i class="fa-solid fa-users mr-1.5 text-base"></i> Comunidade
+                    </a>
 
                     <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre os vossos serviços e produtos na ENEMBA." 
                        target="_blank" 
                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-full text-white bg-emerald-600 hover:bg-emerald-700 transition-all shadow-md">
-                        <i class="fab fa-whatsapp mr-2 text-lg"></i> Falar Connosco
+                        <i class="fab fa-whatsapp mr-1.5 text-base"></i> WhatsApp
                     </a>
                 </div>
 
-                <!-- Botão Menu Mobile com indicador do carrinho -->
-                <div class="flex items-center gap-3 md:hidden">
-                    <button onclick="openCart()" class="relative p-2 text-gray-600">
-                        <i class="fa-solid fa-cart-shopping text-lg"></i>
-                        <span id="cart-badge-mobile-btn" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-extrabold px-1 py-0.2 rounded-full">0</span>
+                <!-- Botão Menu Mobile com indicadores limpos -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <!-- Histórico Mobile rápido -->
+                    <button onclick="openOrdersModal()" title="Meus Pedidos" class="p-2 text-gray-500">
+                        <i class="fa-solid fa-clock-rotate-left text-lg"></i>
                     </button>
-                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                    <!-- Carrinho Mobile rápido -->
+                    <button onclick="openCart()" title="Meu Carrinho" class="relative p-2 text-gray-500">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cart-badge-mobile-btn" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+                    <!-- Menu Hamburguer -->
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none ml-1">
                         <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Menu Mobile -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 pt-2 pb-4 space-y-1">
-            <a href="#inicio" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Início</a>
-            <a href="#produtos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Produtos</a>
-            <a href="#categorias" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Categorias</a>
-            <a href="#servicos" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Serviços</a>
-            <a href="#simulador" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Simulador</a>
-            <a href="#contacto" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:bg-gray-50">Contacto</a>
-            <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre a ENEMBA." 
-               target="_blank" 
-               class="block text-center w-full px-4 py-3 bg-emerald-600 text-white font-semibold rounded-md shadow hover:bg-emerald-700 mt-4">
-                <i class="fab fa-whatsapp mr-2"></i> Enviar WhatsApp
-            </a>
+        <!-- Menu Mobile Reorganizado -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-150 px-4 pt-2 pb-6 space-y-1 shadow-inner">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-base font-semibold text-gray-700 hover:bg-gray-50">Início</a>
+            <a href="#produtos" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-base font-semibold text-gray-700 hover:bg-gray-50">Produtos</a>
+            <a href="#servicos" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-base font-semibold text-gray-700 hover:bg-gray-50">Serviços</a>
+            <a href="#simulador" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-base font-semibold text-gray-700 hover:bg-gray-50">Simulador</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-base font-semibold text-gray-700 hover:bg-gray-50">Contacto</a>
+            
+            <div class="pt-4 border-t border-gray-150 mt-4 space-y-2">
+                <a href="https://chat.whatsapp.com/SEU_CODIGO_DA_COMUNIDADE" 
+                   target="_blank" 
+                   class="block text-center w-full px-4 py-2.5 bg-blue-50 text-blue-600 font-bold rounded-xl text-sm">
+                    <i class="fa-solid fa-users mr-2 text-base"></i> Aderir à Comunidade
+                </a>
+                <button onclick="openOrdersModal(); toggleMobileMenu();" class="w-full text-center px-4 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-xl text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Meus Pedidos Guardados
+                </button>
+                <a href="https://wa.me/244928190474?text=Olá! Gostaria de obter mais informações sobre a ENEMBA." 
+                   target="_blank" 
+                   class="block text-center w-full px-4 py-3 bg-emerald-600 text-white font-bold rounded-xl shadow-md hover:bg-emerald-700 text-sm">
+                    <i class="fab fa-whatsapp mr-2 text-base"></i> Enviar WhatsApp
+                </a>
+            </div>
         </div>
     </header>
 
@@ -110,9 +146,6 @@
                     Explore os melhores produtos importados e aproveite os nossos serviços especializados de lavagem de estofados e formação de importação de alta qualidade com a confiança da ENEMBA.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
-                    <a href="#produtos" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all text-center">
-                        Ver Produtos
-                    </a>
                     <a href="#simulador" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all text-center">
                         Simulador Financeiro
                     </a>
@@ -429,6 +462,38 @@
         </div>
     </div>
 
+    <!-- MODAL DE HISTÓRICO DE PEDIDOS (Meus Pedidos) -->
+    <div id="orders-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative p-6 sm:p-8">
+            <!-- Botão de Fechar -->
+            <button onclick="closeOrdersModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-clock-rotate-left text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Histórico de Pedidos</h3>
+                <p class="text-gray-500 text-sm mt-1">Registos de encomendas efetuadas no site guardados de forma segura e local.</p>
+            </div>
+
+            <!-- Contentor dos Pedidos -->
+            <div id="orders-modal-content" class="space-y-4 max-h-[45vh] overflow-y-auto pr-1">
+                <!-- Injetado dinamicamente -->
+            </div>
+
+            <div class="pt-6 border-t border-gray-100 mt-6 flex justify-between items-center gap-4">
+                <button onclick="clearAllOrders()" id="clear-orders-btn" class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 border border-red-200 rounded-xl font-semibold transition-all hidden">
+                    Limpar Histórico
+                </button>
+                <button onclick="closeOrdersModal()" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition-all ml-auto">
+                    Fechar Janela
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE DETALHES DO PRODUTO (Dinamizado por Javascript) -->
     <div id="product-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 hidden overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
@@ -595,6 +660,7 @@
                     </p>
                     <div class="flex space-x-4">
                         <a href="https://wa.me/244928190474" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-whatsapp text-xl"></i></a>
+                        <a href="https://chat.whatsapp.com/SEU_CODIGO_DA_COMUNIDADE" target="_blank" title="Comunidade WhatsApp" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-users text-xl"></i></a>
                         <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-facebook text-xl"></i></a>
                         <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
                     </div>
@@ -608,6 +674,8 @@
                         <li><a href="#produtos" class="hover:text-white transition-colors">Nossos Produtos</a></li>
                         <li><a href="#servicos" class="hover:text-white transition-colors">Serviços Oferecidos</a></li>
                         <li><a href="#simulador" class="hover:text-white transition-colors">Simulador de Custos</a></li>
+                        <!-- Nova funcionalidade: Acesso do rodapé -->
+                        <li><a href="javascript:void(0)" onclick="openOrdersModal()" class="hover:text-white transition-colors">Meus Pedidos</a></li>
                         <li><a href="#categorias" class="hover:text-white transition-colors">Filtrar por Categoria</a></li>
                     </ul>
                 </div>
@@ -743,7 +811,9 @@
         let currentCategory = 'todos';
         let searchQuery = '';
         let quantities = {}; // Seleções temporárias de quantidade por produto
-        let cart = {}; // Estrutura de Carrinho: { [productId]: quantidade }
+        
+        // Nova funcionalidade: Carrinho recupera da memória local de imediato
+        let cart = JSON.parse(localStorage.getItem('enemba_cart')) || {}; // Estrutura de Carrinho: { [productId]: quantidade }
         let currentModalProductId = null;
 
         // Inicializar quantidades temporárias em 0
@@ -869,7 +939,7 @@
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " Kz";
         }
 
-        // Atualizar todos os contadores e badges de Carrinho na Página
+        // Atualizar todos os contadores e badges de Carrinho na Página e persistir dados
         function updateCartUI() {
             let totalItems = 0;
             let totalVal = 0;
@@ -881,6 +951,9 @@
                     totalVal += cleanPrice(product.price) * cart[id];
                 }
             });
+
+            // Nova funcionalidade: Guardar o carrinho atualizado no localStorage local
+            localStorage.setItem('enemba_cart', JSON.stringify(cart));
 
             // Atualizar os emblemas de quantidade no site (Header, Mobile, Flutuante)
             document.getElementById('cart-badge-header').innerText = totalItems;
@@ -1034,6 +1107,7 @@
             let productsText = "";
             let overallTotal = 0;
             let counter = 1;
+            let orderItemsList = []; // Array temporário para persistir no histórico de pedidos local
 
             Object.keys(cart).forEach(id => {
                 const qty = cart[id];
@@ -1055,6 +1129,14 @@
                                 `   - Subtotal: ${formatPrice(itemSubtotal)}\n` +
                                 `   - Link: ${productLink}\n\n`;
                 counter++;
+
+                // Guardar detalhes de cada artigo
+                orderItemsList.push({
+                    id: product.id,
+                    title: product.title,
+                    qty: qty,
+                    subtotal: formatPrice(itemSubtotal)
+                });
             });
 
             // Construir mensagem estruturada unificada
@@ -1071,6 +1153,24 @@
             const encodedText = encodeURIComponent(finalMessage);
             const whatsappLink = `https://wa.me/244928190474?text=${encodedText}`;
 
+            // --- NOVA FUNCIONALIDADE: SALVAR O PEDIDO NO HISTÓRICO LOCAL ANTES DE LIMPAR ---
+            const orderId = "PED-" + Math.floor(1000 + Math.random() * 9000);
+            const orderDate = new Date().toLocaleString('pt-PT');
+            const newOrder = {
+                id: orderId,
+                date: orderDate,
+                clientName: clientName,
+                address: clientAddress,
+                reference: clientReference,
+                total: formatPrice(overallTotal),
+                items: orderItemsList
+            };
+
+            const existingOrders = JSON.parse(localStorage.getItem('enemba_orders')) || [];
+            existingOrders.unshift(newOrder); // Novo pedido surge no topo da lista
+            localStorage.setItem('enemba_orders', JSON.stringify(existingOrders));
+            // -------------------------------------------------------------
+
             // Abrir WhatsApp com o pedido completo e unificado
             window.open(whatsappLink, '_blank');
 
@@ -1084,6 +1184,103 @@
             
             showToast("Encomenda enviada com sucesso para o WhatsApp da ENEMBA!", "success");
         }
+
+        // --- NOVA FUNCIONALIDADE: MOTOR DE CONTROLO DO MODAL DE HISTÓRICO ---
+        function openOrdersModal() {
+            renderOrders();
+            document.getElementById('orders-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeOrdersModal() {
+            document.getElementById('orders-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('orders-modal-content');
+            const clearBtn = document.getElementById('clear-orders-btn');
+            const orders = JSON.parse(localStorage.getItem('enemba_orders')) || [];
+
+            container.innerHTML = '';
+
+            if (orders.length === 0) {
+                clearBtn.classList.add('hidden');
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-folder-open text-2xl"></i>
+                        </div>
+                        <h4 class="text-gray-900 font-bold text-base">Nenhum Pedido Guardado</h4>
+                        <p class="text-gray-500 text-xs mt-1">Os seus pedidos finalizados e enviados para o WhatsApp aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+
+            orders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = "border border-gray-150 rounded-2xl p-4 bg-gray-50/50 space-y-3";
+
+                let itemsHtml = '';
+                order.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="flex justify-between text-xs text-gray-600">
+                            <span>• ${item.title} (x${item.qty})</span>
+                            <span class="font-semibold">${item.subtotal}</span>
+                        </div>
+                    `;
+                });
+
+                orderDiv.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <div>
+                            <span class="text-xs font-bold text-blue-600">${order.id}</span>
+                            <span class="text-[10px] text-gray-400 block">${order.date}</span>
+                        </div>
+                        <span class="text-xs font-bold text-gray-900">${order.total}</span>
+                    </div>
+                    <div class="space-y-1 bg-white p-2.5 rounded-xl border border-gray-100">
+                        ${itemsHtml}
+                    </div>
+                    <div class="text-[11px] text-gray-500 leading-tight">
+                        <strong>Entregar em:</strong> ${order.address}<br>
+                        <strong>Ref:</strong> ${order.reference}
+                    </div>
+                    <button onclick="repeatOrder('${order.id}')" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 pt-1">
+                        <i class="fa-solid fa-arrows-spin"></i> Voltar a adicionar itens ao carrinho
+                    </button>
+                `;
+                container.appendChild(orderDiv);
+            });
+        }
+
+        function repeatOrder(orderId) {
+            const orders = JSON.parse(localStorage.getItem('enemba_orders')) || [];
+            const foundOrder = orders.find(o => o.id === orderId);
+            if (!foundOrder) return;
+
+            foundOrder.items.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    cart[product.id] = (cart[product.id] || 0) + item.qty;
+                }
+            });
+
+            updateCartUI();
+            closeOrdersModal();
+            openCart();
+            showToast("Artigos da encomenda anterior adicionados de volta ao seu carrinho!", "success");
+        }
+
+        function clearAllOrders() {
+            localStorage.removeItem('enemba_orders');
+            renderOrders();
+            showToast("O seu histórico local de pedidos foi limpo com sucesso.", "success");
+        }
+        // -------------------------------------------------------------
 
         // Renderizar produtos na página principal
         function renderProducts(productsList) {
@@ -1326,6 +1523,7 @@
             const checkoutModal = document.getElementById('checkout-modal');
             const cartModal = document.getElementById('cart-modal');
             const cbmModal = document.getElementById('modalCbm');
+            const ordersModal = document.getElementById('orders-modal');
             
             if (event.target === modal) {
                 closeModal();
@@ -1338,6 +1536,9 @@
             }
             if (event.target === cbmModal) {
                 toggleCbmModal(false);
+            }
+            if (event.target === ordersModal) {
+                closeOrdersModal();
             }
         }
 
@@ -1446,11 +1647,10 @@
             showToast("Contas e projeções calculadas com sucesso!", "success");
         }
 
-
         // Inicializar com todos os produtos renderizados na abertura
         window.onload = function() {
             renderProducts(products);
-            updateCartUI();
+            updateCartUI(); // Carrega o estado do carrinho armazenado
             populateProfitMarginDropdown();
 
             // Abrir Produto Automático se enviado ID pela URL (?prod=ID)
